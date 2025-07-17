@@ -1,0 +1,37 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: aryan12032003/wanderlust-backend:latest
+    container_name: wanderlust-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=${MONGO_URI}
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    image: aryan12032003/wanderlust-frontend:latest
+    container_name: wanderlust-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:6
+    container_name: wanderlust-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
