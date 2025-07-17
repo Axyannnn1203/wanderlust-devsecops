@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   backend:
     build:
@@ -10,9 +10,7 @@ services:
       - "5000:5000"
     environment:
       - NODE_ENV=production
-      - MONGO_URI=${MONGO_URI}
-    depends_on:
-      - mongo
+      - MONGO_URI=mongodb+srv://aryan:aryan123@cluster0.z6gcyq4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
   frontend:
     build:
@@ -22,16 +20,7 @@ services:
     container_name: wanderlust-frontend
     ports:
       - "3000:80"
+    environment:
+      - VITE_API_URL=http://<EC2-PUBLIC-IP>:5000/api
     depends_on:
       - backend
-
-  mongo:
-    image: mongo:6
-    container_name: wanderlust-mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-volumes:
-  mongo-data:
