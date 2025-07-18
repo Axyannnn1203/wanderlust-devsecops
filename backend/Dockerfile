@@ -1,11 +1,18 @@
+# Use Node.js LTS version
 FROM node:18-alpine
 
+# Set working directory
 WORKDIR /app
 
-COPY backend/package*.json ./
-RUN npm install
+# Copy package.json and install dependencies
+COPY package*.json ./
+RUN npm install --only=production
 
-COPY backend/ .
+# Copy backend source code
+COPY . .
 
+# Expose backend port
 EXPOSE 5000
+
+# Start backend server
 CMD ["npm", "start"]
