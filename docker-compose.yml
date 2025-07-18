@@ -3,27 +3,25 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./backend
+      context: .
+      dockerfile: backend/Dockerfile
     image: aryan12032003/wanderlust-backend:latest
     container_name: wanderlust-backend
     ports:
       - "5000:5000"
-    env_file:
-      - .env
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - MONGO_URI=${MONGO_URI}
+      - NODE_ENV=production
+      - MONGO_URI=mongodb+srv://aryan:aryan123@cluster0.z6gcyq4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
   frontend:
     build:
-      context: ./frontend
+      context: .
+      dockerfile: frontend/Dockerfile
     image: aryan12032003/wanderlust-frontend:latest
     container_name: wanderlust-frontend
     ports:
       - "3000:80"
-    env_file:
-      - .env
     environment:
-      - VITE_API_URL=${VITE_API_URL}
+      - VITE_API_URL=http://3.93.17.130 :5000/api
     depends_on:
       - backend
