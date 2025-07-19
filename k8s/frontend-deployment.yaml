@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wanderlust-frontend
+  namespace: wanderlust
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wanderlust-frontend
+  template:
+    metadata:
+      labels:
+        app: wanderlust-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: aryan12032003/wanderlust-frontend:latest
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: wanderlust-config

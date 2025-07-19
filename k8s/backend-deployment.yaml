@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wanderlust-backend
+  namespace: wanderlust
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wanderlust-backend
+  template:
+    metadata:
+      labels:
+        app: wanderlust-backend
+    spec:
+      containers:
+        - name: backend
+          image: aryan12032003/wanderlust-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: MONGO_URI
